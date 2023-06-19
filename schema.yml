@@ -1,0 +1,4687 @@
+openapi: 3.0.3
+info:
+  title: Swipe
+  version: 1.0.0
+  description: Swipe API
+paths:
+  /account-email-verification-sent/:
+    post:
+      operationId: account_email_verification_sent_create
+      tags:
+      - account-email-verification-sent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /announcements/announcement/:
+    get:
+      operationId: announcements_announcement_list
+      parameters:
+      - in: query
+        name: condition
+        schema:
+          type: string
+          enum:
+          - Bad
+          - Good
+          - Need repair
+        description: |-
+          * `Need repair` - Need Repair
+          * `Good` - Good
+          * `Bad` - Bad
+
+          * `Need repair` - Need Repair
+          * `Good` - Good
+          * `Bad` - Bad
+      - in: query
+        name: destination
+        schema:
+          type: string
+          enum:
+          - Apartment
+          - House
+        description: |-
+          * `Apartment` - Apartment
+          * `House` - House
+
+          * `Apartment` - Apartment
+          * `House` - House
+      - in: query
+        name: district
+        schema:
+          type: string
+      - in: query
+        name: house_status
+        schema:
+          type: string
+          enum:
+          - apartments
+          - houses
+        description: |-
+          * `apartments` - Apartments
+          * `houses` - Houses
+
+          * `apartments` - Apartments
+          * `houses` - Houses
+      - in: query
+        name: max_area
+        schema:
+          type: integer
+      - in: query
+        name: max_price
+        schema:
+          type: integer
+      - in: query
+        name: microdistrict
+        schema:
+          type: string
+      - in: query
+        name: min_area
+        schema:
+          type: integer
+      - in: query
+        name: min_price
+        schema:
+          type: integer
+      - in: query
+        name: number_rooms
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - in: query
+        name: payment_option
+        schema:
+          type: string
+          enum:
+          - Card
+          - Cash
+          - Cryptocurrency
+        description: |-
+          * `Cash` - Cash
+          * `Card` - Card
+          * `Cryptocurrency` - Cryptocurrency
+
+          * `Cash` - Cash
+          * `Card` - Card
+          * `Cryptocurrency` - Cryptocurrency
+      tags:
+      - announcements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAnnouncementListList'
+          description: ''
+    post:
+      operationId: announcements_announcement_create
+      tags:
+      - announcements
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnnouncementCrateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementUpdate'
+          description: ''
+  /announcements/announcement/{id}/:
+    get:
+      operationId: announcements_announcement_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - announcements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementUpdate'
+          description: ''
+    put:
+      operationId: announcements_announcement_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - announcements
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnnouncementUpdateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementUpdate'
+          description: ''
+    delete:
+      operationId: announcements_announcement_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - announcements
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /announcements/announcement/{id}/set_promotion/:
+    put:
+      operationId: announcements_announcement_set_promotion_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - Announcement promotion
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnnouncementPromotionRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementUpdate'
+          description: ''
+  /announcements/announcement/{id}/to_residential_complex/:
+    post:
+      operationId: announcements_announcement_to_residential_complex_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - announcements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementUpdate'
+          description: ''
+  /announcements/announcement/add-to-favourite/{id}/:
+    post:
+      operationId: announcements_announcement_add_to_favourite_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - Announcement favourites
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementUpdate'
+          description: ''
+  /announcements/announcement/announcement_my_list/:
+    get:
+      operationId: announcements_announcement_announcement_my_list_retrieve
+      tags:
+      - announcements
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementUpdate'
+          description: ''
+  /announcements/announcement/remove-from-favourite/{id}/:
+    delete:
+      operationId: announcements_announcement_remove_from_favourite_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - Announcement favourites
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /announcements/application/:
+    get:
+      operationId: announcements_application_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Applications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedApplicationList'
+          description: ''
+  /announcements/application/{id}/:
+    get:
+      operationId: announcements_application_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this application.
+        required: true
+      tags:
+      - Applications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: ''
+    put:
+      operationId: announcements_application_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this application.
+        required: true
+      tags:
+      - Applications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationConfirmRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ApplicationConfirmRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ApplicationConfirmRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: ''
+    delete:
+      operationId: announcements_application_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this application.
+        required: true
+      tags:
+      - Applications
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /announcements/moderate/:
+    get:
+      operationId: announcements_moderate_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - announcement-moderation
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAnnouncementModerateListList'
+          description: ''
+  /announcements/moderate/{id}/:
+    get:
+      operationId: announcements_moderate_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - announcement-moderation
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementModerate'
+          description: ''
+    put:
+      operationId: announcements_moderate_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - announcement-moderation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementModerateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AnnouncementModerateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AnnouncementModerateRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnnouncementModerate'
+          description: ''
+  /api/token/:
+    post:
+      operationId: api_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPairRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: api_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /chessboards/chessboard/chessboard-announcement/{id}/:
+    get:
+      operationId: chessboards_chessboard_chessboard_announcement_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      tags:
+      - Chessboard
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChessboardAnnouncementList'
+          description: ''
+  /chessboards/chessboard/chessboard-list/{id}/:
+    get:
+      operationId: chessboards_chessboard_chessboard_list_retrieve
+      description: <b>The {id} parameter in the link must be filled with the Section_id</b>
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this announcement.
+        required: true
+      - in: query
+        name: max_area
+        schema:
+          type: number
+      - in: query
+        name: max_price
+        schema:
+          type: number
+      - in: query
+        name: max_price_square_meter
+        schema:
+          type: number
+      - in: query
+        name: min_area
+        schema:
+          type: number
+      - in: query
+        name: min_price
+        schema:
+          type: number
+      - in: query
+        name: min_price_square_meter
+        schema:
+          type: number
+      tags:
+      - Chessboard
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChessboardAnnouncementList'
+          description: ''
+  /login/:
+    post:
+      operationId: login_create
+      description: |-
+        Check the credentials and return the REST Token
+        if the credentials are valid and authenticated.
+        Calls Django Auth login method to register User ID
+        in Django session framework
+
+        Accept the following POST parameters: username, password
+        Return the REST Framework Token Object's key.
+      tags:
+      - login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWT'
+          description: ''
+  /logout/:
+    post:
+      operationId: logout_create
+      description: |-
+        Calls Django logout method and delete the Token object
+        assigned to the current User object.
+
+        Accepts/Returns nothing.
+      tags:
+      - logout
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /notaries/:
+    get:
+      operationId: notaries_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - notaries
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNotaryList'
+          description: ''
+    post:
+      operationId: notaries_create
+      tags:
+      - notaries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotaryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NotaryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NotaryRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notary'
+          description: ''
+  /notaries/{id}/:
+    get:
+      operationId: notaries_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this notary.
+        required: true
+      tags:
+      - notaries
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notary'
+          description: ''
+    put:
+      operationId: notaries_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this notary.
+        required: true
+      tags:
+      - notaries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotaryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NotaryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NotaryRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notary'
+          description: ''
+    delete:
+      operationId: notaries_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this notary.
+        required: true
+      tags:
+      - notaries
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /promotions/promotion-type/:
+    get:
+      operationId: promotions_promotion_type_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Promotion types
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPromotionTypeList'
+          description: ''
+    post:
+      operationId: promotions_promotion_type_create
+      tags:
+      - Promotion types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromotionTypeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromotionTypeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PromotionTypeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromotionType'
+          description: ''
+  /promotions/promotion-type/{id}/:
+    get:
+      operationId: promotions_promotion_type_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this promotion type.
+        required: true
+      tags:
+      - Promotion types
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromotionType'
+          description: ''
+    put:
+      operationId: promotions_promotion_type_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this promotion type.
+        required: true
+      tags:
+      - Promotion types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromotionTypeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromotionTypeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PromotionTypeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromotionType'
+          description: ''
+    delete:
+      operationId: promotions_promotion_type_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this promotion type.
+        required: true
+      tags:
+      - Promotion types
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /register/builder/:
+    post:
+      operationId: register_builder_create
+      tags:
+      - register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuilderRegisterRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BuilderRegisterRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BuilderRegisterRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuilderRegister'
+          description: ''
+  /register/owner/:
+    post:
+      operationId: register_owner_create
+      tags:
+      - register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnerRegisterRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OwnerRegisterRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OwnerRegisterRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OwnerRegister'
+          description: ''
+  /resend-email/:
+    post:
+      operationId: resend_email_create
+      tags:
+      - resend-email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerificationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerificationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResendEmailVerificationRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+  /residential-complexes/add-to-favourite/{id}/:
+    post:
+      operationId: residential_complexes_add_to_favourite_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Residential complex favourites
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /residential-complexes/advantages/:
+    get:
+      operationId: residential_complexes_advantages_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Advantages
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAdvantageList'
+          description: ''
+    post:
+      operationId: residential_complexes_advantages_create
+      tags:
+      - Advantages
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AdvantageRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advantage'
+          description: ''
+  /residential-complexes/advantages/{id}/:
+    get:
+      operationId: residential_complexes_advantages_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this advantage.
+        required: true
+      tags:
+      - Advantages
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advantage'
+          description: ''
+    put:
+      operationId: residential_complexes_advantages_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this advantage.
+        required: true
+      tags:
+      - Advantages
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AdvantageRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advantage'
+          description: ''
+    delete:
+      operationId: residential_complexes_advantages_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this advantage.
+        required: true
+      tags:
+      - Advantages
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /residential-complexes/blocks/:
+    get:
+      operationId: residential_complexes_blocks_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Blocks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBlockList'
+          description: ''
+    post:
+      operationId: residential_complexes_blocks_create
+      tags:
+      - Blocks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlockRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlockRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+          description: ''
+  /residential-complexes/blocks/{id}/:
+    get:
+      operationId: residential_complexes_blocks_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this block.
+        required: true
+      tags:
+      - Blocks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+          description: ''
+    put:
+      operationId: residential_complexes_blocks_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this block.
+        required: true
+      tags:
+      - Blocks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BlockRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BlockRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+          description: ''
+    delete:
+      operationId: residential_complexes_blocks_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this block.
+        required: true
+      tags:
+      - Blocks
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /residential-complexes/create/:
+    post:
+      operationId: residential_complexes_create_create
+      tags:
+      - residential-complexes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidentialComplexCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResidentialComplexCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResidentialComplexCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidentialComplexCreate'
+          description: ''
+  /residential-complexes/document/create/:
+    post:
+      operationId: residential_complexes_document_create_create
+      tags:
+      - residential-complexes
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DocumentRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+          description: ''
+  /residential-complexes/floors/:
+    get:
+      operationId: residential_complexes_floors_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Floors
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFloorList'
+          description: ''
+    post:
+      operationId: residential_complexes_floors_create
+      tags:
+      - Floors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FloorRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FloorRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FloorRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Floor'
+          description: ''
+  /residential-complexes/floors/{id}/:
+    get:
+      operationId: residential_complexes_floors_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this floor.
+        required: true
+      tags:
+      - Floors
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Floor'
+          description: ''
+    put:
+      operationId: residential_complexes_floors_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this floor.
+        required: true
+      tags:
+      - Floors
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FloorRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FloorRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FloorRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Floor'
+          description: ''
+    delete:
+      operationId: residential_complexes_floors_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this floor.
+        required: true
+      tags:
+      - Floors
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /residential-complexes/list/:
+    get:
+      operationId: residential_complexes_list_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - residential-complexes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBaseResidentialComplexList'
+          description: ''
+  /residential-complexes/news/create/:
+    post:
+      operationId: residential_complexes_news_create_create
+      tags:
+      - residential-complexes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewsRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/News'
+          description: ''
+  /residential-complexes/profile/:
+    get:
+      operationId: residential_complexes_profile_retrieve
+      tags:
+      - residential-complexes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidentialComplexUpdate'
+          description: ''
+    put:
+      operationId: residential_complexes_profile_update
+      tags:
+      - residential-complexes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResidentialComplexUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ResidentialComplexUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ResidentialComplexUpdateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResidentialComplexUpdate'
+          description: ''
+    delete:
+      operationId: residential_complexes_profile_destroy
+      tags:
+      - residential-complexes
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /residential-complexes/remove-from-favourite/{id}/:
+    delete:
+      operationId: residential_complexes_remove_from_favourite_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Residential complex favourites
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /residential-complexes/risers/:
+    get:
+      operationId: residential_complexes_risers_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Risers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRiserList'
+          description: ''
+    post:
+      operationId: residential_complexes_risers_create
+      tags:
+      - Risers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RiserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RiserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Riser'
+          description: ''
+  /residential-complexes/risers/{id}/:
+    get:
+      operationId: residential_complexes_risers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this riser.
+        required: true
+      tags:
+      - Risers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Riser'
+          description: ''
+    put:
+      operationId: residential_complexes_risers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this riser.
+        required: true
+      tags:
+      - Risers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RiserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RiserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Riser'
+          description: ''
+    delete:
+      operationId: residential_complexes_risers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this riser.
+        required: true
+      tags:
+      - Risers
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /residential-complexes/sections/:
+    get:
+      operationId: residential_complexes_sections_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Sections
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSectionList'
+          description: ''
+    post:
+      operationId: residential_complexes_sections_create
+      tags:
+      - Sections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SectionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+          description: ''
+  /residential-complexes/sections/{id}/:
+    get:
+      operationId: residential_complexes_sections_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this section.
+        required: true
+      tags:
+      - Sections
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+          description: ''
+    put:
+      operationId: residential_complexes_sections_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this section.
+        required: true
+      tags:
+      - Sections
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SectionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SectionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SectionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+          description: ''
+    delete:
+      operationId: residential_complexes_sections_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this section.
+        required: true
+      tags:
+      - Sections
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /saved-filters/:
+    get:
+      operationId: saved_filters_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Saved filters
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSavedFiltersList'
+          description: ''
+    post:
+      operationId: saved_filters_create
+      tags:
+      - Saved filters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedFiltersRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SavedFiltersRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SavedFiltersRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedFilters'
+          description: ''
+  /saved-filters/{id}/:
+    get:
+      operationId: saved_filters_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this saved filters.
+        required: true
+      tags:
+      - Saved filters
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedFilters'
+          description: ''
+    put:
+      operationId: saved_filters_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this saved filters.
+        required: true
+      tags:
+      - Saved filters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedFiltersRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SavedFiltersRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SavedFiltersRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedFilters'
+          description: ''
+    delete:
+      operationId: saved_filters_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this saved filters.
+        required: true
+      tags:
+      - Saved filters
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/:
+    get:
+      operationId: users_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBlackListList'
+          description: ''
+  /users/blacklist/:
+    get:
+      operationId: users_blacklist_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Black List
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBlackListList'
+          description: ''
+  /users/favourite/:
+    get:
+      operationId: users_favourite_retrieve
+      tags:
+      - Favourites
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Favourite'
+          description: ''
+  /users/messages/:
+    get:
+      operationId: users_messages_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Messages
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMessageListList'
+          description: ''
+    post:
+      operationId: users_messages_create
+      tags:
+      - Messages
+      requestBody:
+        content:
+          User:
+            schema:
+              $ref: '#/components/schemas/MessageUserRequest'
+          Admin:
+            schema:
+              $ref: '#/components/schemas/MessageAdminRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageAdmin'
+          description: ''
+  /users/messages/{id}/:
+    get:
+      operationId: users_messages_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - Messages
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageAdmin'
+          description: ''
+    put:
+      operationId: users_messages_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - Messages
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageAdminRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MessageAdminRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MessageAdminRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageAdmin'
+          description: ''
+    delete:
+      operationId: users_messages_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this message.
+        required: true
+      tags:
+      - Messages
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/profile/:
+    get:
+      operationId: users_profile_retrieve
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_profile_update
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: users_profile_partial_update
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /users/remove-from-black-list/{id}/:
+    delete:
+      operationId: users_remove_from_black_list_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Black List
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: User removed from black list.
+        '404':
+          description: User not found
+  /users/subscription-types/:
+    get:
+      operationId: users_subscription_types_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Subscription Types
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSubscriptionTypeList'
+          description: ''
+    post:
+      operationId: users_subscription_types_create
+      tags:
+      - Subscription Types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionTypeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubscriptionTypeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubscriptionTypeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionType'
+          description: ''
+  /users/subscription-types/{id}/:
+    get:
+      operationId: users_subscription_types_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subscription type.
+        required: true
+      tags:
+      - Subscription Types
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionType'
+          description: ''
+    put:
+      operationId: users_subscription_types_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subscription type.
+        required: true
+      tags:
+      - Subscription Types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionTypeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubscriptionTypeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubscriptionTypeRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionType'
+          description: ''
+    delete:
+      operationId: users_subscription_types_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subscription type.
+        required: true
+      tags:
+      - Subscription Types
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/subscriptions/:
+    get:
+      operationId: users_subscriptions_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - Subscriptions
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSubscriptionList'
+          description: ''
+    post:
+      operationId: users_subscriptions_create
+      tags:
+      - Subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCreateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCreateRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+          description: ''
+  /users/subscriptions/{id}/:
+    get:
+      operationId: users_subscriptions_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subscription.
+        required: true
+      tags:
+      - Subscriptions
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+          description: ''
+    put:
+      operationId: users_subscriptions_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subscription.
+        required: true
+      tags:
+      - Subscriptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+          description: ''
+    delete:
+      operationId: users_subscriptions_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subscription.
+        required: true
+      tags:
+      - Subscriptions
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/to-black-list/{id}/:
+    post:
+      operationId: users_to_black_list_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - Black List
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: User added to black list.
+        '404':
+          description: User not found
+  /verify-email/:
+    post:
+      operationId: verify_email_create
+      tags:
+      - verify-email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestAuthDetail'
+          description: ''
+components:
+  schemas:
+    Advantage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        logo:
+          type: string
+          format: uri
+      required:
+      - id
+      - logo
+      - name
+    AdvantageRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        logo:
+          type: string
+          format: binary
+      required:
+      - logo
+      - name
+    AgentCommissionEnum:
+      enum:
+      - 500
+      - 1500
+      - 3000
+      type: integer
+      description: |-
+        * `500` - Small
+        * `1500` - Mid
+        * `3000` - Big
+    AnnouncementCrateRequest:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            type: string
+            format: binary
+            writeOnly: true
+          writeOnly: true
+        address:
+          type: string
+          minLength: 1
+          maxLength: 95
+        residential_complex:
+          type: integer
+          nullable: true
+        foundation_document:
+          $ref: '#/components/schemas/FoundationDocumentEnum'
+        destination:
+          $ref: '#/components/schemas/DestinationEnum'
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
+        condition:
+          $ref: '#/components/schemas/ConditionEnum'
+        area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        kitchen_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        has_balcony:
+          type: boolean
+        heating_type:
+          $ref: '#/components/schemas/HeatingTypeEnum'
+        payment_option:
+          $ref: '#/components/schemas/PaymentOptionEnum'
+        agent_commission:
+          allOf:
+          - $ref: '#/components/schemas/AgentCommissionEnum'
+          minimum: -2147483648
+          maximum: 2147483647
+        communication_method:
+          $ref: '#/components/schemas/CommunicationMethodEnum'
+        description:
+          type: string
+          minLength: 1
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - address
+      - agent_commission
+      - area
+      - communication_method
+      - condition
+      - description
+      - destination
+      - foundation_document
+      - has_balcony
+      - heating_type
+      - images
+      - kitchen_area
+      - layout
+      - number_rooms
+      - payment_option
+      - price
+    AnnouncementList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+          readOnly: true
+        address:
+          type: string
+          maxLength: 95
+        foundation_document:
+          $ref: '#/components/schemas/FoundationDocumentEnum'
+        destination:
+          $ref: '#/components/schemas/DestinationEnum'
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
+        condition:
+          $ref: '#/components/schemas/ConditionEnum'
+        area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        kitchen_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        has_balcony:
+          type: boolean
+        heating_type:
+          $ref: '#/components/schemas/HeatingTypeEnum'
+        payment_option:
+          $ref: '#/components/schemas/PaymentOptionEnum'
+        agent_commission:
+          allOf:
+          - $ref: '#/components/schemas/AgentCommissionEnum'
+          minimum: -2147483648
+          maximum: 2147483647
+        communication_method:
+          $ref: '#/components/schemas/CommunicationMethodEnum'
+        description:
+          type: string
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        promotion_type:
+          type: integer
+          nullable: true
+      required:
+      - address
+      - agent_commission
+      - area
+      - communication_method
+      - condition
+      - description
+      - destination
+      - foundation_document
+      - has_balcony
+      - heating_type
+      - id
+      - images
+      - kitchen_area
+      - layout
+      - number_rooms
+      - payment_option
+      - price
+    AnnouncementModerate:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+        address:
+          type: string
+          readOnly: true
+          maxLength: 95
+        residential_complex:
+          type: integer
+          readOnly: true
+          nullable: true
+        foundation_document:
+          allOf:
+          - $ref: '#/components/schemas/FoundationDocumentEnum'
+          readOnly: true
+        destination:
+          allOf:
+          - $ref: '#/components/schemas/DestinationEnum'
+          readOnly: true
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          readOnly: true
+        layout:
+          allOf:
+          - $ref: '#/components/schemas/LayoutEnum'
+          readOnly: true
+        condition:
+          allOf:
+          - $ref: '#/components/schemas/ConditionEnum'
+          readOnly: true
+        area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          readOnly: true
+        kitchen_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          readOnly: true
+        has_balcony:
+          type: boolean
+          readOnly: true
+        heating_type:
+          allOf:
+          - $ref: '#/components/schemas/HeatingTypeEnum'
+          readOnly: true
+        payment_option:
+          allOf:
+          - $ref: '#/components/schemas/PaymentOptionEnum'
+          readOnly: true
+        agent_commission:
+          allOf:
+          - $ref: '#/components/schemas/AgentCommissionEnum'
+          readOnly: true
+          minimum: -2147483648
+          maximum: 2147483647
+        communication_method:
+          allOf:
+          - $ref: '#/components/schemas/CommunicationMethodEnum'
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          readOnly: true
+        approved:
+          type: boolean
+          nullable: true
+        moderate_message:
+          $ref: '#/components/schemas/ModerateMessageEnum'
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - address
+      - agent_commission
+      - area
+      - communication_method
+      - condition
+      - date_created
+      - description
+      - destination
+      - foundation_document
+      - has_balcony
+      - heating_type
+      - images
+      - kitchen_area
+      - layout
+      - number_rooms
+      - payment_option
+      - price
+      - residential_complex
+    AnnouncementModerateList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        images:
+          type: array
+          items:
+            type: integer
+        address:
+          type: string
+          maxLength: 95
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - address
+      - area
+      - date_created
+      - id
+      - images
+      - number_rooms
+      - price
+    AnnouncementModerateRequest:
+      type: object
+      properties:
+        approved:
+          type: boolean
+          nullable: true
+        moderate_message:
+          $ref: '#/components/schemas/ModerateMessageEnum'
+    AnnouncementPromotionRequest:
+      type: object
+      properties:
+        promotion_type:
+          type: integer
+          nullable: true
+    AnnouncementUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        images:
+          type: array
+          items:
+            type: integer
+        address:
+          type: string
+          maxLength: 95
+        residential_complex:
+          type: integer
+          nullable: true
+        foundation_document:
+          $ref: '#/components/schemas/FoundationDocumentEnum'
+        destination:
+          $ref: '#/components/schemas/DestinationEnum'
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
+        condition:
+          $ref: '#/components/schemas/ConditionEnum'
+        area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        kitchen_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        has_balcony:
+          type: boolean
+        heating_type:
+          $ref: '#/components/schemas/HeatingTypeEnum'
+        payment_option:
+          $ref: '#/components/schemas/PaymentOptionEnum'
+        agent_commission:
+          allOf:
+          - $ref: '#/components/schemas/AgentCommissionEnum'
+          minimum: -2147483648
+          maximum: 2147483647
+        communication_method:
+          $ref: '#/components/schemas/CommunicationMethodEnum'
+        description:
+          type: string
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - address
+      - agent_commission
+      - area
+      - communication_method
+      - condition
+      - date_created
+      - description
+      - destination
+      - foundation_document
+      - has_balcony
+      - heating_type
+      - id
+      - images
+      - kitchen_area
+      - layout
+      - number_rooms
+      - payment_option
+      - price
+    AnnouncementUpdateRequest:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            type: integer
+        new_images:
+          type: array
+          items:
+            type: string
+            format: binary
+            writeOnly: true
+          writeOnly: true
+        address:
+          type: string
+          minLength: 1
+          maxLength: 95
+        residential_complex:
+          type: integer
+          nullable: true
+        foundation_document:
+          $ref: '#/components/schemas/FoundationDocumentEnum'
+        destination:
+          $ref: '#/components/schemas/DestinationEnum'
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        layout:
+          $ref: '#/components/schemas/LayoutEnum'
+        condition:
+          $ref: '#/components/schemas/ConditionEnum'
+        area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        kitchen_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        has_balcony:
+          type: boolean
+        heating_type:
+          $ref: '#/components/schemas/HeatingTypeEnum'
+        payment_option:
+          $ref: '#/components/schemas/PaymentOptionEnum'
+        agent_commission:
+          allOf:
+          - $ref: '#/components/schemas/AgentCommissionEnum'
+          minimum: -2147483648
+          maximum: 2147483647
+        communication_method:
+          $ref: '#/components/schemas/CommunicationMethodEnum'
+        description:
+          type: string
+          minLength: 1
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+      required:
+      - address
+      - agent_commission
+      - area
+      - communication_method
+      - condition
+      - description
+      - destination
+      - foundation_document
+      - has_balcony
+      - heating_type
+      - images
+      - kitchen_area
+      - layout
+      - new_images
+      - number_rooms
+      - payment_option
+      - price
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        announcement:
+          type: integer
+      required:
+      - announcement
+      - id
+    ApplicationConfirmRequest:
+      type: object
+      properties:
+        floor:
+          type: integer
+          nullable: true
+        riser:
+          type: integer
+          nullable: true
+      required:
+      - floor
+      - riser
+    BaseImage:
+      type: object
+      properties:
+        image:
+          type: string
+          format: uri
+        order:
+          type: integer
+          maximum: 32767
+      required:
+      - order
+    BaseImageRequest:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        order:
+          type: integer
+          maximum: 32767
+      required:
+      - order
+    BaseResidentialComplex:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        advantages:
+          type: array
+          items:
+            type: integer
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseImage'
+          readOnly: true
+        news:
+          type: array
+          items:
+            $ref: '#/components/schemas/News'
+          readOnly: true
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        address:
+          type: string
+          maxLength: 95
+        contact_first_name:
+          type: string
+          maxLength: 50
+        contact_last_name:
+          type: string
+          maxLength: 50
+        contact_phone:
+          type: string
+          maxLength: 128
+        contact_email:
+          type: string
+          format: email
+          maxLength: 254
+        house_status:
+          $ref: '#/components/schemas/HouseStatusEnum'
+        house_type:
+          $ref: '#/components/schemas/HouseTypeEnum'
+        house_class:
+          $ref: '#/components/schemas/HouseClassEnum'
+        construction:
+          $ref: '#/components/schemas/ConstructionEnum'
+        territory:
+          $ref: '#/components/schemas/TerritoryEnum'
+        communal_payments:
+          $ref: '#/components/schemas/CommunalPaymentsEnum'
+        ceiling_height:
+          type: number
+          format: double
+        distance_to_sea:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+      required:
+      - address
+      - ceiling_height
+      - communal_payments
+      - construction
+      - contact_email
+      - contact_first_name
+      - contact_last_name
+      - contact_phone
+      - description
+      - distance_to_sea
+      - documents
+      - house_class
+      - house_status
+      - house_type
+      - id
+      - images
+      - name
+      - news
+      - territory
+    BlackList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        profile_image:
+          type: string
+          format: uri
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          maxLength: 128
+        is_blocked:
+          type: boolean
+          readOnly: true
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+      required:
+      - email
+      - id
+      - is_blocked
+      - profile_image
+      - role
+    Block:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 50
+      required:
+      - id
+      - name
+    BlockRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+      required:
+      - name
+    BuilderRegister:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    BuilderRegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password1:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password2:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password1
+      - password2
+    ChessboardAnnouncementList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        floor:
+          allOf:
+          - $ref: '#/components/schemas/Floor'
+          readOnly: true
+        riser:
+          allOf:
+          - $ref: '#/components/schemas/Riser'
+          readOnly: true
+        area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        price_square_meter:
+          type: number
+          format: float
+          readOnly: true
+      required:
+      - area
+      - floor
+      - id
+      - number_rooms
+      - price
+      - price_square_meter
+      - riser
+    CommunalPaymentsEnum:
+      enum:
+      - payments
+      type: string
+      description: '* `payments` - Payments'
+    CommunicationMethodEnum:
+      enum:
+      - Messages
+      - Phone
+      - Message + phone
+      type: string
+      description: |-
+        * `Messages` - Messages
+        * `Phone` - Phone
+        * `Message + phone` - Message Phone
+    ConditionEnum:
+      enum:
+      - Need repair
+      - Good
+      - Bad
+      type: string
+      description: |-
+        * `Need repair` - Need Repair
+        * `Good` - Good
+        * `Bad` - Bad
+    ConstructionEnum:
+      enum:
+      - precastFoundations
+      - hybridConcrete
+      - flatSlabs
+      type: string
+      description: |-
+        * `precastFoundations` - Precast foundations
+        * `hybridConcrete` - Hybrid concrete
+        * `flatSlabs` - Flat slabs
+    DestinationEnum:
+      enum:
+      - Apartment
+      - House
+      type: string
+      description: |-
+        * `Apartment` - Apartment
+        * `House` - House
+    Document:
+      type: object
+      properties:
+        file:
+          type: string
+          format: uri
+        is_excel:
+          type: boolean
+      required:
+      - file
+    DocumentRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        is_excel:
+          type: boolean
+      required:
+      - file
+    Favourite:
+      type: object
+      properties:
+        favourite_residential_complex:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResidentialComplexList'
+          readOnly: true
+        favourite_announcements:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnouncementList'
+          readOnly: true
+      required:
+      - favourite_announcements
+      - favourite_residential_complex
+    Floor:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        number:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        section:
+          type: integer
+      required:
+      - id
+      - number
+      - section
+    FloorRequest:
+      type: object
+      properties:
+        number:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        section:
+          type: integer
+      required:
+      - number
+      - section
+    FoundationDocumentEnum:
+      enum:
+      - Own
+      type: string
+      description: '* `Own` - Own'
+    HeatingTypeEnum:
+      enum:
+      - Gas
+      - Electrical
+      type: string
+      description: |-
+        * `Gas` - Gas
+        * `Electrical` - Electrical
+    HouseClassEnum:
+      enum:
+      - economy
+      - comfort
+      - business
+      - elite
+      type: string
+      description: |-
+        * `economy` - Economy
+        * `comfort` - Comfort
+        * `business` - Business
+        * `elite` - Elite
+    HouseStatusEnum:
+      enum:
+      - apartments
+      - houses
+      type: string
+      description: |-
+        * `apartments` - Apartments
+        * `houses` - Houses
+    HouseTypeEnum:
+      enum:
+      - multiFamily
+      - townhouse
+      - condo
+      - singleFamily
+      type: string
+      description: |-
+        * `multiFamily` - Multi-family
+        * `townhouse` - Townhouse
+        * `condo` - Condo
+        * `singleFamily` - Single-family
+    Image:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        image:
+          type: string
+          format: uri
+      required:
+      - id
+    ImageUpdate:
+      type: object
+      properties:
+        image:
+          type: string
+          format: uri
+        order:
+          type: integer
+          maximum: 32767
+      required:
+      - order
+    ImageUpdateRequest:
+      type: object
+      properties:
+        image:
+          type: string
+          format: binary
+        order:
+          type: integer
+          maximum: 32767
+      required:
+      - order
+    JWT:
+      type: object
+      description: Serializer for JWT authentication.
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserDetails'
+      required:
+      - access_token
+      - refresh_token
+      - user
+    LayoutEnum:
+      enum:
+      - Studio
+      - Micro
+      - Loft
+      - Penthouse
+      type: string
+      description: |-
+        * `Studio` - Studio
+        * `Micro` - Micro
+        * `Loft` - Loft
+        * `Penthouse` - Penthouse
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 1
+      required:
+      - password
+    MessageAdmin:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        text:
+          type: string
+        file:
+          type: string
+          format: uri
+          nullable: true
+        receiver:
+          type: integer
+      required:
+      - id
+      - receiver
+      - text
+    MessageAdminRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+        file:
+          type: string
+          format: binary
+          nullable: true
+        receiver:
+          type: integer
+      required:
+      - receiver
+      - text
+    MessageList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        text:
+          type: string
+        file:
+          type: string
+          format: uri
+          nullable: true
+        sender:
+          type: integer
+        receiver:
+          type: integer
+      required:
+      - id
+      - receiver
+      - sender
+      - text
+    MessageUserRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+        file:
+          type: string
+          format: binary
+          nullable: true
+      required:
+      - text
+    ModerateMessageEnum:
+      enum:
+      - Incorrect photo
+      - Incorrect price
+      - Incorrect description
+      type: string
+      description: |-
+        * `Incorrect photo` - Photo
+        * `Incorrect price` - Price
+        * `Incorrect description` - Description
+    News:
+      type: object
+      properties:
+        date_created:
+          type: string
+          format: date-time
+          readOnly: true
+        title:
+          type: string
+          maxLength: 64
+        text:
+          type: string
+      required:
+      - date_created
+      - text
+      - title
+    NewsRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 64
+        text:
+          type: string
+          minLength: 1
+      required:
+      - text
+      - title
+    Notary:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        phone:
+          type: string
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 254
+      required:
+      - email
+      - id
+      - phone
+    NotaryRequest:
+      type: object
+      properties:
+        phone:
+          type: string
+          minLength: 1
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+      required:
+      - email
+      - phone
+    NullEnum:
+      enum:
+      - null
+    OwnerRegister:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    OwnerRegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password1:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password2:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password1
+      - password2
+    PaginatedAdvantageList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Advantage'
+    PaginatedAnnouncementListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnouncementList'
+    PaginatedAnnouncementModerateListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnnouncementModerateList'
+    PaginatedApplicationList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
+    PaginatedBaseResidentialComplexList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseResidentialComplex'
+    PaginatedBlackListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BlackList'
+    PaginatedBlockList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+    PaginatedFloorList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Floor'
+    PaginatedMessageListList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageList'
+    PaginatedNotaryList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notary'
+    PaginatedPromotionTypeList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromotionType'
+    PaginatedRiserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Riser'
+    PaginatedSavedFiltersList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SavedFilters'
+    PaginatedSectionList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Section'
+    PaginatedSubscriptionList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
+    PaginatedSubscriptionTypeList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionType'
+    PatchedUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        profile_image:
+          type: string
+          format: binary
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          minLength: 1
+        agent_first_name:
+          type: string
+          maxLength: 50
+        agent_last_name:
+          type: string
+          maxLength: 50
+        agent_phone:
+          type: string
+          maxLength: 128
+        agent_email:
+          type: string
+          format: email
+          maxLength: 254
+        switch_to_agent:
+          type: boolean
+    PaymentOptionEnum:
+      enum:
+      - Cash
+      - Card
+      - Cryptocurrency
+      type: string
+      description: |-
+        * `Cash` - Cash
+        * `Card` - Card
+        * `Cryptocurrency` - Cryptocurrency
+    PromotionType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        effectivity:
+          type: number
+          format: double
+          maximum: 100
+        name:
+          type: string
+          maxLength: 50
+        price:
+          type: number
+          format: double
+      required:
+      - effectivity
+      - id
+      - name
+      - price
+    PromotionTypeRequest:
+      type: object
+      properties:
+        effectivity:
+          type: number
+          format: double
+          maximum: 100
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        price:
+          type: number
+          format: double
+      required:
+      - effectivity
+      - name
+      - price
+    ResendEmailVerificationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+      required:
+      - email
+    ResidentialComplexCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        advantages:
+          type: array
+          items:
+            type: integer
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseImage'
+        news:
+          type: array
+          items:
+            $ref: '#/components/schemas/News'
+          readOnly: true
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        address:
+          type: string
+          maxLength: 95
+        contact_first_name:
+          type: string
+          maxLength: 50
+        contact_last_name:
+          type: string
+          maxLength: 50
+        contact_phone:
+          type: string
+          maxLength: 128
+        contact_email:
+          type: string
+          format: email
+          maxLength: 254
+        house_status:
+          $ref: '#/components/schemas/HouseStatusEnum'
+        house_type:
+          $ref: '#/components/schemas/HouseTypeEnum'
+        house_class:
+          $ref: '#/components/schemas/HouseClassEnum'
+        construction:
+          $ref: '#/components/schemas/ConstructionEnum'
+        territory:
+          $ref: '#/components/schemas/TerritoryEnum'
+        communal_payments:
+          $ref: '#/components/schemas/CommunalPaymentsEnum'
+        ceiling_height:
+          type: number
+          format: double
+        distance_to_sea:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+      required:
+      - address
+      - ceiling_height
+      - communal_payments
+      - construction
+      - contact_email
+      - contact_first_name
+      - contact_last_name
+      - contact_phone
+      - description
+      - distance_to_sea
+      - documents
+      - house_class
+      - house_status
+      - house_type
+      - id
+      - images
+      - name
+      - news
+      - territory
+    ResidentialComplexCreateRequest:
+      type: object
+      properties:
+        advantages:
+          type: array
+          items:
+            type: integer
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseImageRequest'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        description:
+          type: string
+          minLength: 1
+        address:
+          type: string
+          minLength: 1
+          maxLength: 95
+        contact_first_name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        contact_last_name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        contact_phone:
+          type: string
+          minLength: 1
+          maxLength: 128
+        contact_email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        house_status:
+          $ref: '#/components/schemas/HouseStatusEnum'
+        house_type:
+          $ref: '#/components/schemas/HouseTypeEnum'
+        house_class:
+          $ref: '#/components/schemas/HouseClassEnum'
+        construction:
+          $ref: '#/components/schemas/ConstructionEnum'
+        territory:
+          $ref: '#/components/schemas/TerritoryEnum'
+        communal_payments:
+          $ref: '#/components/schemas/CommunalPaymentsEnum'
+        ceiling_height:
+          type: number
+          format: double
+        distance_to_sea:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+      required:
+      - address
+      - ceiling_height
+      - communal_payments
+      - construction
+      - contact_email
+      - contact_first_name
+      - contact_last_name
+      - contact_phone
+      - description
+      - distance_to_sea
+      - house_class
+      - house_status
+      - house_type
+      - images
+      - name
+      - territory
+    ResidentialComplexList:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 150
+        address:
+          type: string
+          maxLength: 95
+        min_price:
+          type: integer
+          default: 0
+        min_area:
+          type: integer
+          default: 0
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseImage'
+          readOnly: true
+      required:
+      - address
+      - images
+      - name
+    ResidentialComplexUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        advantages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Advantage'
+          readOnly: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageUpdate'
+        news:
+          type: array
+          items:
+            $ref: '#/components/schemas/News'
+          readOnly: true
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        address:
+          type: string
+          maxLength: 95
+        contact_first_name:
+          type: string
+          maxLength: 50
+        contact_last_name:
+          type: string
+          maxLength: 50
+        contact_phone:
+          type: string
+          maxLength: 128
+        contact_email:
+          type: string
+          format: email
+          maxLength: 254
+        house_status:
+          $ref: '#/components/schemas/HouseStatusEnum'
+        house_type:
+          $ref: '#/components/schemas/HouseTypeEnum'
+        house_class:
+          $ref: '#/components/schemas/HouseClassEnum'
+        construction:
+          $ref: '#/components/schemas/ConstructionEnum'
+        territory:
+          $ref: '#/components/schemas/TerritoryEnum'
+        communal_payments:
+          $ref: '#/components/schemas/CommunalPaymentsEnum'
+        ceiling_height:
+          type: number
+          format: double
+        distance_to_sea:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+      required:
+      - address
+      - advantages
+      - ceiling_height
+      - communal_payments
+      - construction
+      - contact_email
+      - contact_first_name
+      - contact_last_name
+      - contact_phone
+      - description
+      - distance_to_sea
+      - documents
+      - house_class
+      - house_status
+      - house_type
+      - id
+      - images
+      - name
+      - news
+      - territory
+    ResidentialComplexUpdateRequest:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageUpdateRequest'
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+        description:
+          type: string
+          minLength: 1
+        address:
+          type: string
+          minLength: 1
+          maxLength: 95
+        contact_first_name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        contact_last_name:
+          type: string
+          minLength: 1
+          maxLength: 50
+        contact_phone:
+          type: string
+          minLength: 1
+          maxLength: 128
+        contact_email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        house_status:
+          $ref: '#/components/schemas/HouseStatusEnum'
+        house_type:
+          $ref: '#/components/schemas/HouseTypeEnum'
+        house_class:
+          $ref: '#/components/schemas/HouseClassEnum'
+        construction:
+          $ref: '#/components/schemas/ConstructionEnum'
+        territory:
+          $ref: '#/components/schemas/TerritoryEnum'
+        communal_payments:
+          $ref: '#/components/schemas/CommunalPaymentsEnum'
+        ceiling_height:
+          type: number
+          format: double
+        distance_to_sea:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+      required:
+      - address
+      - ceiling_height
+      - communal_payments
+      - construction
+      - contact_email
+      - contact_first_name
+      - contact_last_name
+      - contact_phone
+      - description
+      - distance_to_sea
+      - house_class
+      - house_status
+      - house_type
+      - images
+      - name
+      - territory
+    RestAuthDetail:
+      type: object
+      properties:
+        detail:
+          type: string
+          readOnly: true
+      required:
+      - detail
+    Riser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        number:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        section:
+          type: integer
+      required:
+      - id
+      - number
+      - section
+    RiserRequest:
+      type: object
+      properties:
+        number:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        section:
+          type: integer
+      required:
+      - number
+      - section
+    RoleEnum:
+      enum:
+      - owner
+      - builder
+      type: string
+      description: |-
+        * `owner` - owner
+        * `builder` - builder
+    SavedFilters:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        min_price:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        max_price:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        min_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        max_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        microdistrict:
+          type: string
+          nullable: true
+          maxLength: 50
+        district:
+          type: string
+          nullable: true
+          maxLength: 50
+        house_status:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/HouseStatusEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        condition:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ConditionEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        payment_option:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PaymentOptionEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        destination:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/DestinationEnum'
+          - $ref: '#/components/schemas/NullEnum'
+      required:
+      - id
+    SavedFiltersRequest:
+      type: object
+      properties:
+        min_price:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        max_price:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        min_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        max_area:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        microdistrict:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 50
+        district:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 50
+        house_status:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/HouseStatusEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        condition:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ConditionEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        payment_option:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/PaymentOptionEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        number_rooms:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+          nullable: true
+        destination:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/DestinationEnum'
+          - $ref: '#/components/schemas/NullEnum'
+    Section:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        number:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        block:
+          type: integer
+      required:
+      - block
+      - id
+      - number
+    SectionRequest:
+      type: object
+      properties:
+        number:
+          type: integer
+          maximum: 32767
+          minimum: -32768
+        block:
+          type: integer
+      required:
+      - block
+      - number
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        auto_renewal:
+          type: boolean
+        owner:
+          type: integer
+        subscription_type:
+          type: integer
+      required:
+      - date
+      - id
+      - owner
+      - subscription_type
+    SubscriptionCreateRequest:
+      type: object
+      properties:
+        auto_renewal:
+          type: boolean
+        subscription_type:
+          type: integer
+      required:
+      - subscription_type
+    SubscriptionRequest:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        auto_renewal:
+          type: boolean
+        owner:
+          type: integer
+        subscription_type:
+          type: integer
+      required:
+      - date
+      - owner
+      - subscription_type
+    SubscriptionType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        price:
+          type: number
+          format: double
+          minimum: 0
+        name:
+          type: string
+          maxLength: 50
+      required:
+      - id
+      - name
+      - price
+    SubscriptionTypeRequest:
+      type: object
+      properties:
+        price:
+          type: number
+          format: double
+          minimum: 0
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+      required:
+      - name
+      - price
+    TerritoryEnum:
+      enum:
+      - open
+      - closed
+      - closedProtected
+      type: string
+      description: |-
+        * `open` - Open
+        * `closed` - Closed
+        * `closedProtected` - Closed and protected
+    TokenObtainPair:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - refresh
+    TokenObtainPairRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - password
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+      required:
+      - access
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refresh:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        profile_image:
+          type: string
+          format: uri
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+        agent_first_name:
+          type: string
+          maxLength: 50
+        agent_last_name:
+          type: string
+          maxLength: 50
+        agent_phone:
+          type: string
+          maxLength: 128
+        agent_email:
+          type: string
+          format: email
+          maxLength: 254
+        switch_to_agent:
+          type: boolean
+        role:
+          type: string
+          readOnly: true
+      required:
+      - email
+      - id
+      - phone
+      - profile_image
+      - role
+    UserDetails:
+      type: object
+      description: User model w/o password
+      properties:
+        pk:
+          type: integer
+          readOnly: true
+          title: ID
+        email:
+          type: string
+          format: email
+          readOnly: true
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+      required:
+      - email
+      - pk
+    UserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 254
+        profile_image:
+          type: string
+          format: binary
+        first_name:
+          type: string
+          maxLength: 50
+        last_name:
+          type: string
+          maxLength: 50
+        phone:
+          type: string
+          minLength: 1
+        agent_first_name:
+          type: string
+          maxLength: 50
+        agent_last_name:
+          type: string
+          maxLength: 50
+        agent_phone:
+          type: string
+          maxLength: 128
+        agent_email:
+          type: string
+          format: email
+          maxLength: 254
+        switch_to_agent:
+          type: boolean
+      required:
+      - email
+      - phone
+      - profile_image
+    VerifyEmailRequest:
+      type: object
+      properties:
+        key:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - key
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
